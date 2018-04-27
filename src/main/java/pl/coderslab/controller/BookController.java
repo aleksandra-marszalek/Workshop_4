@@ -1,14 +1,21 @@
 package pl.coderslab.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.coderslab.model.Book;
+
+import java.util.List;
 
 
 @RestController
 @RequestMapping("/books")
 public class BookController {
 
+    @Autowired
+    MemoryBookService memoryBookService;
 
     @RequestMapping("/hello")
     public String hello(){
@@ -21,5 +28,14 @@ public class BookController {
                 "Helion", "programming");
     }
 
+    @RequestMapping("/getBooks")
+    public List<Book> getBooks() {
+        return memoryBookService.getList();
+    }
+
+    @PostMapping("/getBook")
+    public Book getBook(@RequestParam long id) {
+        return memoryBookService.getList().get((int) id);
+    }
 
 }
