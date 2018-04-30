@@ -1,10 +1,7 @@
 package pl.coderslab.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.model.Book;
 
 import java.util.List;
@@ -13,6 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/books")
 public class BookController {
+
 
     @Autowired
     MemoryBookService memoryBookService;
@@ -28,14 +26,59 @@ public class BookController {
                 "Helion", "programming");
     }
 
-    @RequestMapping("/getBooks")
+    /**
+     * Get all books
+     * @return
+     */
+    @GetMapping("/")
+    @ResponseBody
     public List<Book> getBooks() {
         return memoryBookService.getList();
     }
 
-    @PostMapping("/getBook")
-    public Book getBook(@RequestParam long id) {
-        return memoryBookService.getList().get((int) id);
+    /**
+     * Get single book
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    @ResponseBody
+    public Book getBook(@PathVariable long id) {
+        return memoryBookService.getBook(id);
     }
+
+    /**
+     * add book ex. from form
+     * @return
+     */
+    @PostMapping
+    @ResponseBody
+    public Book addBook(@RequestParam String isbn, @RequestParam String title,
+                        @RequestParam String author, @RequestParam String publisher, @RequestParam String type) {
+        return memoryBookService.addBook(isbn, title, author, publisher, type);
+    }
+
+    /**
+     * edit book ex. from form
+     * @return
+     */
+    @PutMapping("/")
+    @ResponseBody
+    public Book editBook(@RequestParam long id, @RequestParam String isbn, @RequestParam String title,
+                        @RequestParam String author, @RequestParam String publisher, @RequestParam String type) {
+       return memoryBookService.editBook(id, isbn, title, author, publisher, type);
+    }
+
+    /**
+     * Delete single book
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/")
+    @ResponseBody
+    public Book deleteBook(@RequestParam long id) {
+        return memoryBookService.deleteBook(id);
+    }
+
 
 }
