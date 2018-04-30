@@ -1,4 +1,4 @@
-package pl.coderslab.controller;
+package pl.coderslab.service;
 
 
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Component
 @Service
-public class MemoryBookService {
+public class MemoryBookService implements BookService {
     private List<Book> list;
 
     public MemoryBookService() {
@@ -32,6 +32,19 @@ public class MemoryBookService {
         this.list = list;
     }
 
+    @Override
+    public Book getBook(long id) {
+        List<Book> books = getList();
+        Book book = new Book();
+        for (Book b: books) {
+            if(b.getId()==id) {
+                book=b;
+            }
+        }
+        return book;
+    }
+
+    @Override
     public Book addBook (String isbn, String title, String author, String publisher, String type) {
         Book book = new Book();
         book.setIsbn(isbn);
@@ -44,17 +57,7 @@ public class MemoryBookService {
         return book;
     }
 
-    public Book getBook(long id) {
-        List<Book> books = getList();
-        Book book = new Book();
-        for (Book b: books) {
-            if(b.getId()==id) {
-                book=b;
-            }
-        }
-        return book;
-    }
-
+    @Override
     public Book editBook(long id, String isbn, String title, String author, String publisher, String type) {
         List<Book> books = getList();
         Book book = getBook(id);
@@ -67,12 +70,14 @@ public class MemoryBookService {
         return book;
     }
 
-    public Book deleteBook (long id) {
+    @Override
+    public Book deleteBook(long id) {
         List<Book> books = getList();
         Book book = getBook(id);
         books.remove(book);
         return book;
     }
+
 
 
 

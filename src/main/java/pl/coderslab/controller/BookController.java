@@ -3,6 +3,8 @@ package pl.coderslab.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.model.Book;
+import pl.coderslab.service.BookService;
+import pl.coderslab.service.MemoryBookService;
 
 import java.util.List;
 
@@ -13,7 +15,7 @@ public class BookController {
 
 
     @Autowired
-    MemoryBookService memoryBookService;
+    BookService bookService;
 
     @RequestMapping("/hello")
     public String hello(){
@@ -33,7 +35,7 @@ public class BookController {
     @GetMapping("/")
     @ResponseBody
     public List<Book> getBooks() {
-        return memoryBookService.getList();
+        return bookService.getList();
     }
 
     /**
@@ -44,7 +46,7 @@ public class BookController {
     @GetMapping("/{id}")
     @ResponseBody
     public Book getBook(@PathVariable long id) {
-        return memoryBookService.getBook(id);
+        return bookService.getBook(id);
     }
 
     /**
@@ -55,7 +57,7 @@ public class BookController {
     @ResponseBody
     public Book addBook(@RequestParam String isbn, @RequestParam String title,
                         @RequestParam String author, @RequestParam String publisher, @RequestParam String type) {
-        return memoryBookService.addBook(isbn, title, author, publisher, type);
+        return bookService.addBook(isbn, title, author, publisher, type);
     }
 
     /**
@@ -66,7 +68,7 @@ public class BookController {
     @ResponseBody
     public Book editBook(@RequestParam long id, @RequestParam String isbn, @RequestParam String title,
                         @RequestParam String author, @RequestParam String publisher, @RequestParam String type) {
-       return memoryBookService.editBook(id, isbn, title, author, publisher, type);
+       return bookService.editBook(id, isbn, title, author, publisher, type);
     }
 
     /**
@@ -77,7 +79,7 @@ public class BookController {
     @DeleteMapping("/")
     @ResponseBody
     public Book deleteBook(@RequestParam long id) {
-        return memoryBookService.deleteBook(id);
+        return bookService.deleteBook(id);
     }
 
 
